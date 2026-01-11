@@ -1,0 +1,1 @@
+This is a LibraryProject using Django. The project is an introduction to Django
