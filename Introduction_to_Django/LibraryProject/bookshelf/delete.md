@@ -5,3 +5,4 @@ from bookshelf.models import Book
 
 #expected output
 (1, {'bookshelf.Book': 1})
+
