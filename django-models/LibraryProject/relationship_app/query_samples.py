@@ -10,3 +10,6 @@ author_name = "Peggy Oppong"
 author = Author.objects.get(name=author_name)
 all_auth_books = Book.objects.filter(author=author)
 
+#Retrieve the Librarian for a Library
+librarian = Librarian.objects.get(library=library)
+
