@@ -8,5 +8,5 @@ all_lib_books = Library.books.all()
 #Query all books by a specific author
 author_name = "Peggy Oppong"
 author = Author.objects.get(name=author_name)
-all_auth_books = Book.objects.filter(author = author)
+all_auth_books = Book.objects.filter(author=author)
 
