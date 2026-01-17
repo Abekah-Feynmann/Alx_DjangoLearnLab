@@ -1,4 +1,5 @@
 from .models import Book
 
-#Get all books written by a certain author
-books = Book.objects.all()
+#List of all books in the library
+library = Library.objects.get(name="Abekah's Library")
+all_books = Library.books.all()
