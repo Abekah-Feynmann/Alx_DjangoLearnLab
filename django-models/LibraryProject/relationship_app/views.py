@@ -21,6 +21,18 @@ class LibraryDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['books'] = self.object.books.all()
         return context
+
+    def register(request):
+        if request.method == 'POST':
+            form = UserCreationForm(request.POST)
+
+            if form.is_valid():
+                form.save()
+                return redirect('login')
+        else:
+            form = UserCreationForm()
+        
+        return render(request, 'templates/relationship_app/register.html')
         
 
 
