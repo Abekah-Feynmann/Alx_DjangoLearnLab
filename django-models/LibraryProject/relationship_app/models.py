@@ -21,9 +21,9 @@ class Librarian(models.Model):
     library = models.OneToOneField(Library, on_delete=models.CASCADE)
 
 class UserProfile(models.Model):
-    ADMIN = 'admin'
-    LIBRARIAN = 'librarian'
-    MEMBER = 'member'
+    ADMIN = 'Admin'
+    LIBRARIAN = 'Librarian'
+    MEMBER = 'Member'
 
     ROLE_CHOICES = [
         (ADMIN, 'admin'),
