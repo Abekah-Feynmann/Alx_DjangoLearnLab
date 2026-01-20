@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+
+    <h1>Admin Dashboard</h1>
+
+    <p>Welcome, {{ request.user.username }}.</p>
+
+    <!-- Role confirmation (optional but good practice) -->
+    {% if request.user.userprofile.role == 'admin' %}
+
+        <section>
+            <h2>Admin Actions</h2>
+            <ul>
+                <li>Manage Users</li>
+                <li>View System Reports</li>
+                <li>Configure Application Settings</li>
+            </ul>
+        </section>
+
+    {% else %}
+        <!-- This should NEVER be reached because the view is protected -->
+        <p>You do not have permission to view this page.</p>
+    {% endif %}
+
+</body>
+</html>
