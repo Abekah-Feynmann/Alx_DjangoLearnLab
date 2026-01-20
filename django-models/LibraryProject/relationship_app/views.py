@@ -48,7 +48,7 @@ def is_admin(user):
 def admin_view(request):
     return render(request, 'templates/relationship_app/admin_view.html')
 
-
+#create a member_view that only those with member password can access
 #the role checking function
 def is_member(user):
     return(
@@ -60,6 +60,19 @@ def is_member(user):
 def member_view(request):
     return render(request, 'templates/relationship_app/member_view.html')
 
+
+#create a librarian view that only those with librarian password can access
+#role checking function
+
+def is_librarian(user):
+    return(
+        user.is_authenticated and
+        user.userprofile.role == 'Librarian'
+    )
+
+@user_passes_test(is_librarian)
+def librarian_view(request):
+    return render(request, 'templates/relationship_app/librarian_view.html')
 
     
 
