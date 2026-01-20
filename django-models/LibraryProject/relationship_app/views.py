@@ -5,6 +5,7 @@ from .models import Library
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 
 
 # Create a function-based view that list all books in the database.
@@ -36,10 +37,18 @@ class LibraryDetailView(DetailView):
         
         return render(request, 'templates/relationship_app/register.html')
 
-  # create an admin view that only those with admin password can access
-@login_required
+# create an admin view that only those with admin password can access
+def is_admin(user):
+    return(
+        user.is_authenticated and
+        user.userprofile.role == 'Admin'
+    ) 
+
+@user_passes_test(is_admin)
 def admin_view(request):
-    return(render, 'admin_view.html') 
+    return render(request, 'admin_view.html')
+
+
     
 
 
