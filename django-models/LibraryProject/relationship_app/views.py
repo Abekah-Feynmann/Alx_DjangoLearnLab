@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book
 from django.views.generic.detail import DetailView
 from .models import Library
@@ -90,5 +90,21 @@ def add_book(request):
 
         return redirect('list_books')
     return render(request, 'templates/relationship_app/add_book.html')
+
+#creates a view that can edit a book under permissions
+@permission_required("relationship_app.can_change_book")
+def change_book(request):
+    book = get_object_or_404(Book, id=id)
+
+    if request.method == "POST":
+        book.title = request.POST.get['title']
+        book.author = request.POST.get['author']
+        book.save()
+
+        return redirect('list_books')
+
+    return render(request, "templates/relationship_app/change_book.html", {'book':book})
+    
+
 
 
