@@ -93,7 +93,7 @@ def add_book(request):
 
 #creates a view that can edit a book under permissions
 @permission_required("relationship_app.can_change_book")
-def change_book(request):
+def change_book(request, id):
     book = get_object_or_404(Book, id=id)
 
     if request.method == "POST":
@@ -104,6 +104,17 @@ def change_book(request):
         return redirect('list_books')
 
     return render(request, "templates/relationship_app/change_book.html", {'book':book})
+
+#create a view that can delete book under permission
+@permission_required("relationship_app.can_delete_book")
+def delete_book(request, id):
+    book = get_object_or_404(Book, id=id)
+
+    if request.method == "POST":
+        book.delete()
+        return redirect('list_books')
+    return render(request, 'templates/relationship_app/delete_book.html', {'book': book})
+
     
 
 
