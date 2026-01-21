@@ -76,7 +76,19 @@ def librarian_view(request):
     return render(request, 'templates/relationship_app/librarian_view.html')
 
     
+#create a view that adds book under permissions
+@permission_required("relationship_app.can_add_book")
+def add_book(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        author = request.POST["author"]
 
+        Book.objects.create(
+            title = title,
+            author = author
+        )
 
+        return redirect('list_books')
+    return render(request, 'templates/relationship_app/add_book.html')
 
 
