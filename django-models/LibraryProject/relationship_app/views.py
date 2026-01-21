@@ -6,15 +6,16 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import permission_required
 
 
-# Create a function-based view that list all books in the database.
+# Create a function-based view that lists all books in the database.
 def list_books(request):
     books = Book.objects.all()
     context = {"book_list":books}
     return render(request, 'relationship_app/list_books.html', context)
 
-#Create a class-based view that list all books in a library
+#Create a class-based view that lists all books in a library
 class LibraryDetailView(DetailView):
     model = Library
     template_name = 'relationship_app/library_detail.html'
