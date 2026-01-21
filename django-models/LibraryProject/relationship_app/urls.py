@@ -13,7 +13,7 @@ urlpatterns = [
     path('relationship_app/', admin_view), 
     path('relationship_app/', member_view),
     path('relationship_app/', librarian_view),
-    path('relationship_app/edit_book', change_book),
-    path('relationship_app/add_book', add_book),
+    path('relationship_app/edit_book/', change_book),
+    path('relationship_app/add_book/', add_book),
     path('relationship_app/delete_book', delete_book),
 ]
