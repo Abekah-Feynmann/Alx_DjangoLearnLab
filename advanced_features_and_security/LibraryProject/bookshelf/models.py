@@ -42,7 +42,7 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password)
 
 #Integrate the Custom User Model into Admin
-class UserAdmin(UserAdmin):
+class CustomUserAdmin(UserAdmin):
     ...
     list_display = ["email", "password"]
     list_filter = ["is_admin"]
@@ -54,5 +54,5 @@ class UserAdmin(UserAdmin):
     ordering = ["email"]
     filter_horizontal = []
 
-admin.site.register(CustomUser, UserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
 
