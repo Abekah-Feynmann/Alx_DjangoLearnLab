@@ -1,7 +1,11 @@
 from django.db import models
+from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.core.exceptions import ValidationError
+
 
 
 # Create your models here.
@@ -36,3 +40,19 @@ class CustomUserManager(BaseUserManager):
         elif extra_fields.get("self.Admin") is not True:
             raise ValueError("Super User mus thave is_staff=True")
         return self.create_user(email, password)
+
+#Integrate the Custom User Model into Admin
+class UserAdmin(UserAdmin):
+    ...
+    list_display = ["email", "password"]
+    list_filter = ["is_admin"]
+    fieldsets = [
+        (None, {"fields":["email", "password"]}),
+        ("Permissions", {"fields": ["is_Admin"]}),
+    ]
+    search_fields = ["email"]
+    ordering = ["email"]
+    filter_horizontal = []
+
+admin.site.register(CustomUser, UserAdmin)
+
