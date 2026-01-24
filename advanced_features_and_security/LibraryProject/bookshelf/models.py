@@ -2,9 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.admin import UserAdmin
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import Permission
 
 
 # Create your models here.
@@ -27,8 +26,8 @@ class CustomUser(AbstractUser):
 #create a Custom User Manager
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None):
-        email = self.normalize_email()
-        return User
+        email = self.normalize_email(email)
+        return CustomUser
 
     def create_superuser(self, email, password=None):
         extra_fields.setdefault('self.Admin', True)
@@ -52,10 +51,5 @@ class CustomUserAdmin(UserAdmin):
     ordering = ["email"]
     filter_horizontal = []
 
-#Defining Custom Permissions
 
-#get permissiion
-permission = Permission.objects.filter(
-    codename__in=['can_view', 'can_edit', 'can_create', 'can_delete'])
-CustomUser.user_permissions.add(permission)
 
