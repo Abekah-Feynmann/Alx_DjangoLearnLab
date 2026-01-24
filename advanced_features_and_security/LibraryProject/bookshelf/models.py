@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import Permission
 
 
 # Create your models here.
@@ -51,5 +52,10 @@ class CustomUserAdmin(UserAdmin):
     ordering = ["email"]
     filter_horizontal = []
 
+#Defining Custom Permissions for a model
 
+#get permissiion
+permission = Permission.objects.filter(
+    codename__in=['can_view', 'can_edit', 'can_create', 'can_delete'])
+CustomUser.user_permissions.add(permission)
 
