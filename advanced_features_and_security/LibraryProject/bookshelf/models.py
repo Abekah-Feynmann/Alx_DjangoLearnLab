@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+#from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import Permission
 
@@ -13,22 +13,27 @@ class Book(models.Model):
     author = models.CharField(max_length = 100)
     publication_year = models.IntegerField()
 
+    class Meta:
+        permissions = [
+            ('can_view', "Can view Book"),
+            ("can_edit", "can make changes to Book"),
+            ("can_delete", "can make deletions"),
+            ("can_create", "can create new book"),
+        ]
+
     def __str__(self):
         return self.title
-
-#Setting up a custom User Model
-class CustomUser(AbstractUser):
-    date_of_birth = models.DateField()
-    profile_photo = models.ImageField()
-
-    def __str__(self):
-        return self.username
 
 #create a Custom User Manager
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None):
         email = self.normalize_email(email)
-        return CustomUser
+        user = self.model(
+            username=username,
+            email=email 
+            )
+        user.save(using=self._db)
+        return user
 
     def create_superuser(self, email, password=None):
         extra_fields.setdefault('self.Admin', True)
@@ -38,8 +43,21 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("SuperUser must have is_superuser=True")
         elif extra_fields.get("self.Admin") is not True:
             raise ValueError("Super User mus thave is_staff=True")
-        return self.create_user(email, password)
+        return self.create_user(email, password, **extra_fields)
 
+
+#Setting up a custom User Model
+class CustomUser(AbstractUser):
+    date_of_birth = models.DateField(null=True, blank=True)
+    profile_photo = models.ImageField(null=True, blank=True)
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.username
+
+
+"""
 #Integrate the Custom User Model into Admin
 class CustomUserAdmin(UserAdmin):
     list_display = ["email", "password"]
@@ -54,8 +72,8 @@ class CustomUserAdmin(UserAdmin):
 
 #Defining Custom Permissions for a model
 
-#get permissiion
+#get permission
 permission = Permission.objects.filter(
     codename__in=['can_view', 'can_edit', 'can_create', 'can_delete'])
 CustomUser.user_permissions.add(permission)
-
+"""
