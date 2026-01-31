@@ -1,10 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
 #from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import Permission
 
 
 # Create your models here.
@@ -26,30 +24,34 @@ class Book(models.Model):
 
 #create a Custom User Manager
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, **extra_fields):
+        if not username:
+            raise ValueError("The username must be set")
+
         email = self.normalize_email(email)
         user = self.model(
             username=username,
-            email=email 
+            email=email, 
+            **extra_fields
             )
         user.save(using=self._db)
         return user
 
     def create_superuser(self, email, password=None):
-        extra_fields.setdefault('self.Admin', True)
+        extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('self.superuser', True)
 
         if extra_fields.get("self.superuser") is not True:
             raise ValueError("SuperUser must have is_superuser=True")
-        elif extra_fields.get("self.Admin") is not True:
-            raise ValueError("Super User mus thave is_staff=True")
-        return self.create_user(email, password, **extra_fields)
+        elif extra_fields.get("self.is_staff") is not True:
+            raise ValueError("SuperUser must have is_staff=True")
+        return self.create_user(username, email, password, **extra_fields)
 
 
 #Setting up a custom User Model
 class CustomUser(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
-    profile_photo = models.ImageField(null=True, blank=True)
+    profile_photo = models.ImageField(upload_to= 'profiles/', null=True, blank=True)
 
     objects = CustomUserManager()
 
