@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
-#from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.core.exceptions import ValidationError
+from django.contrib.auth.decorators import permission_required
+from django.shortcuts import render, redirect, get_object_or_404
+from relationship_app.models import Book
 
 
 # Create your models here.
@@ -24,7 +26,7 @@ class Book(models.Model):
 
 #create a Custom User Manager
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, username, email, password=None, **extra_fields):
         if not username:
             raise ValueError("The username must be set")
 
@@ -34,17 +36,19 @@ class CustomUserManager(BaseUserManager):
             email=email, 
             **extra_fields
             )
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(self, username, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('self.superuser', True)
+        extra_fields.setdefault('is_superuser', True)
 
-        if extra_fields.get("self.superuser") is not True:
-            raise ValueError("SuperUser must have is_superuser=True")
-        elif extra_fields.get("self.is_staff") is not True:
-            raise ValueError("SuperUser must have is_staff=True")
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True')
+        
         return self.create_user(username, email, password, **extra_fields)
 
 
@@ -57,6 +61,18 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+"""
+Create permissions for add, create, edit or delete
+"""
+@permission_required("bookshelf.can_delete")
+def can_delete(request, id):
+    book = get_object_or_404(Book, id=id)
+
+
+
+
+
 
 
 """

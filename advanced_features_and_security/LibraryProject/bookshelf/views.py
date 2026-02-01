@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Group, Permission
-from relationship_app.models import Library
+from relationship_app.models import Library, Book
+from django.contrib.auth.decorators import permission_required, login_required
+
 
 
 
@@ -33,7 +35,26 @@ class Command(BaseCommand):
         
 
 
+"""
+Create permissions for add, create, edit or delete
+"""
+#A view that lists all books in the database
+def list_books(request):
+    books = Book.objects.all()
+    context = {"book_list": books}
+    return render(request, "bookshelf/list_books.html", context )
 
+
+#permission for delete_books ...not complete
+@login_required
+@permission_required("bookshelf.can_delete", raise_exception=True)
+def can_delete(request, id):
+    book = get_object_or_404(Book, id=id)
+
+    if request.method == "POST":
+        book.delete()
+        return redirect("list_books")
+    return render(request, "templates/bookshelf/delete_book.html", {"book":book})
 
     
 
