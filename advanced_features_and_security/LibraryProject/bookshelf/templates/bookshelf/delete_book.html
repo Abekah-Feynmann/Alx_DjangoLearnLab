@@ -1,0 +1,9 @@
+{% for book in book_list %}
+    {{ book.title }} - {{ book.author }}
+    <a href="{% url 'edit_book' book.id %}">Edit</a>
+
+    <form action="{% url 'delete_book' book.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+{% endfor %}
