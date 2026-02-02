@@ -8,13 +8,13 @@ from rest_framework import generics, viewsets
 
 #Defines a view that uses BookSerializer to return and retrieve book data
 class BookList(generics.ListAPIView):
-    queryset = Book
+    queryset = Book.objects.all()
     serializer_class = BookSerializer
 
 # A viewset that handles all CRUD operations
 class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book
+    queryset = Book.objects.all()
     serializer_class = BookSerializer
-    
+
 
 
