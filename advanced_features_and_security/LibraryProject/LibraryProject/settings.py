@@ -149,4 +149,16 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 
+#Implementing secure headers 
+
+#Protect site from being framed and clickjacking
+X_FRAME_OPTIONS = "DENY"
+
+#Prevent browsers from MIME sniffing a response away from the declared content_type
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+#Enable browsers XSS filtering and help prevent cross-site scripting attacks
+SECURE_BROWSER_XSS_FILTER = True
+
+
 
