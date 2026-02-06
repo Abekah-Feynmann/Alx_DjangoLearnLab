@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
 from django.core.exceptions import ValidationError
-from django.contrib.auth.decorators import permission_required
-from django.shortcuts import render, redirect, get_object_or_404
 from relationship_app.models import Book
 
 
@@ -62,12 +60,8 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
-"""
-Create permissions for add, create, edit or delete
-"""
-@permission_required("bookshelf.can_delete")
-def can_delete(request, id):
-    book = get_object_or_404(Book, id=id)
+
+    
 
 
 
