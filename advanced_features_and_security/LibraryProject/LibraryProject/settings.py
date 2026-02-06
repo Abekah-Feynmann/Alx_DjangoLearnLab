@@ -120,8 +120,21 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 STATIC_URL = 'static/'
 
+
+#Security settings
+
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+#Redirect all non-https requests to https
+SECURE_SSL_REDIRECT = True
+
+#Time required to access site via Https
+SECURE_HSTS_SECONDS = 31536000
+
+#Include all subdomains in hsts policy to allow preloading
+SECURE_HSTS_INCLUDE_ALL_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
