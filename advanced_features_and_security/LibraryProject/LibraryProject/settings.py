@@ -138,3 +138,15 @@ SECURE_HSTS_SECONDS = 31536000
 #Include all subdomains in hsts policy to allow preloading
 SECURE_HSTS_INCLUDE_ALL_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+
+
+#Configuring Cookie Settings
+
+#Ensure cookies are only sent through Https
+SESSION_COOKIE_SECURE = True
+
+#Ensure CSRF cookie settings are transmitted through https
+CSRF_COOKIE_SECURE = True
+
+
+
