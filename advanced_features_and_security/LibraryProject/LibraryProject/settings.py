@@ -150,6 +150,7 @@ CSRF_COOKIE_SECURE = True
 
 
 #Implementing secure headers 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  
 
 #Protect site from being framed and clickjacking
 X_FRAME_OPTIONS = "DENY"
