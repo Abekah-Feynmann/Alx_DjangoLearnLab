@@ -119,7 +119,9 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
 SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
