@@ -6,3 +6,9 @@ class ExampleForm(forms.ModelForm):
         model = Book
         fields = ['title', 'author']
 
+    def clean_title(self):
+        title = self.cleaned_data['title']
+        if len(title) < 3:
+            raise forms.ValidationError("Title too short")
+        return title
+
