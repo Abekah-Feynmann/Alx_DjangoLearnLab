@@ -18,7 +18,10 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 #An Author serializer which serializes the name field in Author model
+#Author.books returns multiple objects
 class AuthorSerializer(serializers.ModelSerializer):
+    books = BookSerializer(many=True, read_only=True)
+
     class Meta:
         model = Author
         fields = ['name']
