@@ -1,5 +1,0 @@
-#virtual env directory
-.venv/
-
-#environmental variables
-.env
