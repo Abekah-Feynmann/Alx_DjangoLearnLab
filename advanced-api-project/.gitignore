@@ -1,0 +1,5 @@
+#venv directory
+venv/
+
+#environment variables
+.env
