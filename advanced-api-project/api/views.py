@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, filters
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, IsAdminUser
 from rest_framework.exceptions import PermissionDenied
+
 
 
 #A set of generic views for the Book model to handle CRUD operations
@@ -13,6 +14,10 @@ class ListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    #filter(search) the book by using a list of attributes; title, author, publication_year
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'author', 'publication_year']
 
 #A detailview for retrieving a single Book by ID
 class DetailView(generics.RetrieveAPIView):
