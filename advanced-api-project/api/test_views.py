@@ -1,5 +1,6 @@
 from .models.py import Book
 from rest_framework.tests import APITestCase
+from rest_framework import status
 
 class BookTestCase(APITestCase):
     def test_create(self):
