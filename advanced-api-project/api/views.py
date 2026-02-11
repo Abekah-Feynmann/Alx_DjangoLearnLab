@@ -16,9 +16,13 @@ class ListView(generics.ListAPIView):
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    #filter(search) the book by using a list of attributes; title, author, publication_year
-    filter_backends = [filters.SearchFilter]
+    """
+    filter(search) the book by using a list of attributes; title, author, publication_year
+    Order the book by title and publication year
+    """
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title', 'author', 'publication_year']
+    ordering_fields = ['title', 'publication_year']
 
 #A detailview for retrieving a single Book by ID
 class DetailView(generics.RetrieveAPIView):
