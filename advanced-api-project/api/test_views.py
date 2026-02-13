@@ -12,11 +12,13 @@ class BookTestCase(APITestCase):
             author: 'Peggy Oppong',
             title: "End of the tunnel"
 
-        }, format= 'json')
+        }, format='json')
         view = CreateView.as_view()
         response = view(request)
         
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 201),
+        self.assertEqual(response.data["author"], "Peggy Oppong"),
+        self.assertEqual(response.data["title", "End of the tunnel"])
         self.assertEqual(Book.objects.count(), 1)
 
     def test_update(self):
