@@ -1,7 +1,7 @@
 from .models.py import Book
 from rest_framework.test import APITestCase, APIRequestFactory
 from rest_framework import status
-from .views import CreateView
+from .views import CreateView, UpdateView, DeleteView
 
 
 factory = APIRequestFactory()
@@ -22,9 +22,43 @@ class BookTestCase(APITestCase):
         self.assertEqual(Book.objects.count(), 1)
 
     def test_update(self):
-        author_name = Book.objects.get(author= "Peggy Oppong", title="End of the tunnel")
-        response = self.client.get('books/update')
-        self.assertEqual(response_code, 200)
+        #Create an object
+        book = Book.objects.create(
+            author="Dostoevsky",
+            title = "Crime and Punishment"
+        )
+
+        #create a new object
+        data = Book.objects.create(
+            author="Dostoevsky",
+            title="The Brothers Karamazov"
+        )
+
+        request = factory.put(f"/api/books/{book.id}/", data, format="json")
+        view = UpdateView().as_view
+        response = view(request, pk=book.id)
+
+        #Assertions
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["title"], "The Brothers Karamazov")
+
+        #Confirm database updated
+        book.refresh_from_db()
+        self.assertEqual(book.title, "The Brothers Karamazov")
+
 
     def test_delete(self):
+        #create a new instance of book
+        book = Book.objects.create(
+            author="Dostoevsky",
+            title="Notes from Underground"
+        )
+
+        request = factory.delete(f"/api/books/{book.id}/")
+        view = DeleteView.as_view()
+        response = view(request, pk=book.id)
+
+        #Assertions
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(Book.objects.count(), 0)
         
