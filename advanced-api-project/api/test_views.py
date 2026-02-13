@@ -1,50 +1,44 @@
 from .models.py import Book
-from rest_framework.test import APITestCase, APIRequestFactory
+from rest_framework.test import APITestCase
 from rest_framework import status
 from .views import CreateView, UpdateView, DeleteView
 
 
-factory = APIRequestFactory()
 
 class BookTestCase(APITestCase):
+    data = {
+            "author": 'Peggy Oppong',
+            "title": "End of the tunnel"
+            }
     def test_create(self):
-        request = factory.post('api/books/', {
-            author: 'Peggy Oppong',
-            title: "End of the tunnel"
-
-        }, format='json')
-        view = CreateView.as_view()
-        response = view(request)
+        response = self.client.post(f"/api/books/", data, format='json')
         
-        self.assertEqual(response.status_code, 201),
-        self.assertEqual(response.data["author"], "Peggy Oppong"),
-        self.assertEqual(response.data["title", "End of the tunnel"])
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data["author"], "Peggy Oppong")
+        self.assertEqual(response.data["title"], "End of the tunnel")
         self.assertEqual(Book.objects.count(), 1)
 
     def test_update(self):
-        #Create an object
-        book = Book.objects.create(
-            author="Dostoevsky",
-            title = "Crime and Punishment"
-        )
+        update_payload = {
+            "author":"Dostoevsky",
+            "title":"Crime and Punishment"
+        }
 
         #create a new object
-        data = Book.objects.create(
+        update_data = Book.objects.create(
             author="Dostoevsky",
             title="The Brothers Karamazov"
         )
 
-        request = factory.put(f"/api/books/{book.id}/", data, format="json")
-        view = UpdateView().as_view
-        response = view(request, pk=book.id)
+        response = self.client.put(f"/api/books/{update_data.id}/", update_payload, format="json")
 
         #Assertions
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["title"], "The Brothers Karamazov")
+        self.assertEqual(response.data["title"], "Crime and Punishment")
 
         #Confirm database updated
-        book.refresh_from_db()
-        self.assertEqual(book.title, "The Brothers Karamazov")
+        update_data.refresh_from_db()
+        self.assertEqual(update_data.title, "Crime and Punishment")
 
 
     def test_delete(self):
