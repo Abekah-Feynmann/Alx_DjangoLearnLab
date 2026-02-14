@@ -22,5 +22,4 @@ from django.contrib.auth.views import LoginView, LogoutView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('django.contrib.auth.urls')),
-
 ]
