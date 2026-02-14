@@ -8,6 +8,8 @@ from django_filters import rest_framework
 
 
 
+
+
 #A set of generic views for the Book model to handle CRUD operations
 
 # A listview for retrieving all books
