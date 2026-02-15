@@ -50,14 +50,14 @@ class CreatePostView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content']
     permission_required = 'blog.add_post'
-    template_name = 'post_create.html'
+    template_name = 'post_form.html'
     context_object_name = 'post_create'
 
 #Enable post authors to edit their posts
 class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
-    template_name = 'post_update.html'
+    template_name = 'post_form.html'
     context_object_name = 'post_update'
 
     def test_func(self):
@@ -69,7 +69,7 @@ class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('post_list')
-    template_name = 'post_delete.html'
+    template_name = 'post_confirm_delete.html'
     context_object_name = 'post_delete'
 
     def test_func(self):

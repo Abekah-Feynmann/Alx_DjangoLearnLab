@@ -55,10 +55,11 @@ ROOT_URLCONF = 'django_blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -76,7 +77,7 @@ WSGI_APPLICATION = 'django_blog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'django_blog',
         'USER': "root",
         'PORT': '3306',
         'PASSWORD' : 'filifeynmann5966B$%^',
@@ -124,8 +125,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-TEMPLATES = [
-    {
-        'DIRS': [BASE_DIR / 'templates'],
-    },
-]
+
+
+#redirect to the profile page
+LOGIN_REDIRECT_URL = "blog/profile"
+LOGOUT_REDIRECT_URL = "blog"
