@@ -68,7 +68,7 @@ class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 #Let authors delete their post
 class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('post_list')
     template_name = 'post_delete.html'
     context_object_name = 'post_delete'
 
