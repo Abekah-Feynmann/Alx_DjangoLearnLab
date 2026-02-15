@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h2>{{ object.title }}</h2>
+    <p><strong>Author:</strong> {{ object.author }}</p>
+    <hr>
+
+    <p>{{ object.content }}</p>
+
+    <hr>
+
+    <a href="{% url 'post-list' %}" class="btn btn-secondary">
+        Back to Posts
+    </a>
+
+    {% if user == object.author %}
+        <a href="{% url 'post-update' object.pk %}" class="btn btn-primary">
+            Edit
+        </a>
+
+        <a href="{% url 'post-delete' object.pk %}" class="btn btn-danger">
+            Delete
+        </a>
+    {% endif %}
+
+</div>
+{% endblock %}
