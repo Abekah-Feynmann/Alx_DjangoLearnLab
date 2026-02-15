@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic import TemplateView
+from blog.views import (PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, SignUpView)
 
 
 urlpatterns = [
@@ -9,4 +11,10 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 
+    #Blog-Post Urls
+    path('post-list/', PostListView.as_view(), name='post-list'),
+    path('post-detail/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    path('post-create/', PostCreateView.as_view(), name='post-create'),
+    path('post-update/<int:pk>/', PostUpdateView.as_view(), name='post-update'),
+    path('post-delete/<int:pk>/', PostDeleteView.as_view(), name='post-delete'),
 ]
