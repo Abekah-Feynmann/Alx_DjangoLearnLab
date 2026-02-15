@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from .forms import ProfileUpdateForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edits import ListView
 
 
     
@@ -25,6 +26,19 @@ def ProfileView(request):
     else:
         form = ProfileUpdateForm(instance=request.user)
     return render(request, "blog/profile.html", {"form":form})
+
+
+"""
+    Implementing CRUD operations
+"""
+#Creating the List view to display blog posts
+class PostListView(ListView):
+    class Meta:
+        model = Post
+        template_name = 'posts.html'
+        context_object_name = 'posts'
+        paginate_by = 10
+
 
 
 
