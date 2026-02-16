@@ -18,9 +18,9 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ["Username", "Password", "Email"]
 
 #Create a comment form
-class CommentForm(forms.modelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = CommentForm
+        model = Comment
         fields = ['content']
         widgets = {
             'content': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Write your comment ...'})
