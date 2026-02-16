@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from .forms import ProfileUpdateForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from .models import Post, Comment
 
 
 
@@ -30,7 +31,7 @@ def ProfileView(request):
 
 
 """
-    Implementing CRUD operations
+    Implementing CRUD operations for Post Model
 """
 #Creating the List view to display blog posts
 class PostListView(ListView):
@@ -68,14 +69,53 @@ class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 #Let authors delete their post
 class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    success_url = reverse_lazy('post_list')
+    success_url = reverse_lazy('posts')
     template_name = 'post_confirm_delete.html'
-    context_object_name = 'post_delete'
+    context_object_name = 'post_confirm_delete'
 
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
 
+
+"""
+Implementing the CRUD operations for Comment Model
+"""
+
+#A view to display comments under a blog post
+class CommentListView(ListView):
+    model = Comment
+    template_name = "comment_list.html"
+    context_object_name = "comment_list"
+    paginate_by = 10
+
+#A view for login users to comment under posts
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    template_name = "comment_form.html"
+    context_object_name = "comment_form"
+
+
+#A view for updating comments
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
+    template_name = "comment_form.html"
+    context_object_name = "comment_form"
+    fields = ["content"]
+    
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
+
+#A view for deleting comments
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    success_url = reverse_lazy('comment-list')
+    template_name = "comment_confirm_delete.html"
+
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
 
 
 
