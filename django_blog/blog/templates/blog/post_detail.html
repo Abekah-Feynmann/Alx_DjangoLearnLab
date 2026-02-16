@@ -40,5 +40,9 @@
     <p>No comments yet.</p>
 {% endfor %}
 
+<a href="{% url 'comment-create' object.pk %}">
+    Add Comment
+</a>
+
 </div>
 {% endblock %}
