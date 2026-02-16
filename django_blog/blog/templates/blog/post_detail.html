@@ -24,6 +24,21 @@
             Delete
         </a>
     {% endif %}
+ 
+
+<h2>Comments</h2>
+
+{% for comment in object.comments.all %}
+    <p>{{ comment.content }}</p>
+    <small>{{ comment.author }}</small>
+
+    {% if user == comment.author %}
+        <a href="{% url 'comment-update' comment.pk %}">Edit</a>
+        <a href="{% url 'comment-delete' comment.pk %}">Delete</a>
+    {% endif %}
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
 
 </div>
 {% endblock %}
