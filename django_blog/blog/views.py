@@ -130,6 +130,13 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == comment.author
 
 
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'post_list.html'
+    context_object_name = 'post_list'
+    paginate_by = 10
 
-
+    #implementing the tag function for posts
+    def get_queryset(self):
+        return Post.objects.filter(tag_slug='self.kwargs["slug"]')
 
