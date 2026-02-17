@@ -46,9 +46,9 @@ class PostListView(ListView):
 
         if query:
             return Post.objects.filter(
-                Q(title_icontains=query) |
-                Q(content_icontains=query) |
-                Q(tags_name_icontains=query))
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(tags__name__icontains=query))
         
         return Post.objects.all()
 
