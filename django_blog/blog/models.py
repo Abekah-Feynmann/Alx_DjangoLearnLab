@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from taggit.managers import TaggableManager
 
 
 # Create your models here.
@@ -24,5 +25,6 @@ class Comment(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=100)
     posts = models.ManyToManyField(Post, related_name='tags')
+    tag = TaggableManager()
 
 
