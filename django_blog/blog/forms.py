@@ -29,7 +29,7 @@ class CommentForm(forms.ModelForm):
 
 #The PostForm
 class PostForm(forms.ModelForm):
-    tags = forms.CharField(widget=TagWidget)
+    tags = forms.CharField(widget=TagWidget())
 
     class Meta:
         model = Post
