@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from taggit.forms import TagWidget
 
 #Create a custom UserCreationForm to include email
 class CustomUserCreationForm(UserCreationForm):
@@ -25,3 +26,13 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Write your comment ...'})
         }
+
+#The PostForm
+class PostForm(forms.ModelForm):
+    tags = forms.CharField(widget=TagWidget)
+
+    class Meta:
+        model = Post
+        fields = ["title", "tags"]
+        
+
