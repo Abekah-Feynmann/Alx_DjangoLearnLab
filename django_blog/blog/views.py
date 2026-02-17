@@ -40,6 +40,18 @@ class PostListView(ListView):
     context_object_name = 'post_list'
     paginate_by = 10
 
+    #implementing the search function for posts
+    def get_queryset(self):
+        query = Self.request.GET.get('q')
+
+        if query:
+            return Post.objects.filter(
+                Q(title_icontains=query) |
+                Q(content_icontains=query) |
+                Q(tags_name_icontains=query))
+        
+        return Post.objects.all()
+
 #Creating the DetailView to show individual blog posts
 class DetailPostView(DetailView):
     model = Post
