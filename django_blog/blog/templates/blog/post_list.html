@@ -4,9 +4,18 @@
     <h2>Posts</h2>
 
     <ul class="list-group">
-        {% for book in object_list %}
+        {% for post in object_list %}
             <li class="list-group-item">
                 <strong>{{ post.title }}</strong> — {{ post.author }}
+
+                <div class="mt-2">
+                    {% for tag in post.tags.all %}
+                        <span class="badge bg-primary">{{ tag.name }}</span>
+                    {% empty %}
+                        <span class="text-muted">No tags</span>
+                    {% endfor %}
+                </div>
+
             </li>
         {% empty %}
             <li class="list-group-item">No posts found.</li>
