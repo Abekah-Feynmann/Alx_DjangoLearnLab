@@ -20,3 +20,9 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now_add = True)
 
+#The Tag Model
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+    posts = models.ManyToManyField(Post, related_name='tags')
+
+
