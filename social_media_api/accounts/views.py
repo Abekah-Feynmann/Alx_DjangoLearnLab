@@ -4,7 +4,7 @@ from rest_framework.response import response
 from .serializers import RegisterSerializer, LoginSerializer
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate
+
 
 
 
@@ -25,21 +25,9 @@ class RegisterView(APIView):
 class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data = request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.validated_data, status=200)
 
-        if serializer.is_valid():
-            username = serializer.validated_data["username"]
-            password = serializer.validated_data["password"]
-
-            #checks if user exists and creates a user object if authentication check is run successfully
-            user = authenticate(username=username, password=password)
-        return Response(serializer.errors, status=400)
-        
-        #Generate token based on the existence of a user
-        if user is None:
-            return Response({"error" : "Invalid Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
-        token, created = Token.objects.get_or_create(user=user)
-
-        return Response({"message" : "Login Successful"}, {"token" : token.key})  
 
 #creating the profile view
 class ProfileView(APIView):
