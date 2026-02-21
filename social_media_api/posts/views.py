@@ -10,12 +10,12 @@ from .models import Post, Comment
 Using the ModelviewSet gives one access to all the CRUD operations needed. 
 the viewset class would be more fitting if the operations needed are customized.
 """
-class PostViewSet(ModelViewSet):
+class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = ["IsAuthenticated"]
 
-class CommentViewSet(ModelViewSet):
+class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = ["IsAuthenticated"]
