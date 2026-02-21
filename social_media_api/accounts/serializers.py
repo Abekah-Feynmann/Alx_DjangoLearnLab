@@ -1,4 +1,5 @@
 from .models import CustomUser
+from django.contrib.auth.models import Group, Permission
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
@@ -47,7 +48,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True, style={"Input_type":"password"})
-    token = serializers.CharFied()
+    token = serializers.CharField()
 
     def validate(self, data):
         user = authenticate(

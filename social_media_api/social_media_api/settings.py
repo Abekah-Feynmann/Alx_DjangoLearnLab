@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts', 
     'rest_framework',
+
+    #Token authentication
     'rest_framework.authtoken',
 ]
 
@@ -100,6 +102,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+#Setting the user model to be CustomUser
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 
 # Internationalization
