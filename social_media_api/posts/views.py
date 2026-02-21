@@ -1,3 +1,23 @@
 from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
+from .serializers import PostSerializer, CommentSerializer
+from .models import Post, Comment
 
-# Create your views here.
+
+# Setting up CRUD operations for both Post and Comments.
+"""
+Using the ModelviewSet gives one access to all the CRUD operations needed. 
+the viewset class would be more fitting if the operations needed are customized.
+"""
+class PostViewSet(ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = ["IsAuthenticated"]
+
+class CommentViewSet(ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = ["IsAuthenticated"]
+
+
