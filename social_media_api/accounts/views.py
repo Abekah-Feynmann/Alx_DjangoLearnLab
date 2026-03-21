@@ -2,10 +2,11 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import RegisterSerializer, LoginSerializer
-from rest_framework import status, generics
+from rest_framework import status, generics, permissions
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
-from rest_framework.permissions import IsAuthenticated
+from .models import CustomUser
+
 
 
 
@@ -45,10 +46,9 @@ class ProfileView(APIView):
 
 
 #creating a view for following a user
-User = get_user_model()
 class FollowUserView(generics.GenericAPIView):
-    queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
         target_user = self.get_object()
@@ -63,8 +63,8 @@ class FollowUserView(generics.GenericAPIView):
 
 #Creating a view for unfollowing a user
 class UnFollowUserView(GenericAPIView):
-    queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
         target_user = self.get_object()
