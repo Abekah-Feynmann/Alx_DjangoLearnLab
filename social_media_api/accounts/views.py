@@ -2,9 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import RegisterSerializer, LoginSerializer
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.authtoken.models import Token
-from rest_framework.generics import GenericAPIView
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAuthenticated
 
@@ -46,8 +45,8 @@ class ProfileView(APIView):
 
 
 #creating a view for following a user
-User = get_user_model
-class FollowUserView(GenericAPIView):
+User = get_user_model()
+class FollowUserView(generics.GenericAPIView):
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
 
