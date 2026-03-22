@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RegisterView, LoginView, ProfileView
+from .views import RegisterView, LoginView, ProfileView, FollowUserView, UnFollowUserView
 from rest_framework.authtoken import views
 
 urlpatterns = [
@@ -13,5 +13,9 @@ urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
 
     #A mechanism for users to obtain a token given their username and password
-    path("api-token-auth", views.obtain_auth_token),
+    path("api-token-auth/", views.obtain_auth_token),
+
+    #A route for follow management
+    path("follow/<int:user_id>", FollowUserView.as_view(), name="follow"),
+    path("unfollow/int:user_id>", UnFollowUserView.as_view(), name="unfollow"),
 ]
