@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from .serializers import PostSerializer, CommentSerializer
@@ -19,22 +19,22 @@ class PostViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = ["IsAuthenticated"]
+    permission_classes = [permissions.IsAuthenticated]
 
 #Creating a View that generates a feed based on the posts from users that the current user follows
 class FeedView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = ["IsAuthenticated"]
-    
+    permission_classes = [permissions.IsAuthenticated]
+
     # get current user
     def get_queryset(self):
         user = self.request.user()
 
         #get users followed by the current user
-        user_following = user.following.all()
+        following_users = user.following.all()
 
         #get all posts from those users the current user follows
-        return Post.objects.filter(author__in=user_following).order_by('created_at')
+        return Post.objects.filter(author__in=following_users).order_by('created_at')
 
 
 
