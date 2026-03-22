@@ -16,6 +16,6 @@ urlpatterns = [
     path("api-token-auth/", views.obtain_auth_token),
 
     #A route for follow management
-    path("follow/<int:user_id>", FollowUserView.as_view(), name="follow"),
-    path("unfollow/<int:user_id>", UnFollowUserView.as_view(), name="unfollow"),
+    path("follow/<int:user_id>/", FollowUserView.as_view(), name="follow"),
+    path("unfollow/<int:user_id>/", UnFollowUserView.as_view(), name="unfollow"),
 ]
