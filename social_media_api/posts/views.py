@@ -3,7 +3,7 @@ from rest_framework import viewsets, generics, permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from .serializers import PostSerializer, CommentSerializer
-from .models import Post, Comment
+from .models import Post, Comment, Like
 
 
 # Setting up CRUD operations for both Post and Comments.
@@ -37,4 +37,22 @@ class FeedView(generics.ListAPIView):
         return Post.objects.filter(author__in=following_users).order_by('created_at')
 
 
+#A view that handles liking and unliking posts.
+class LikeView(generics.GenericAPIView):
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer 
+
+    def post(self, request):
+        #extract the data and validate it
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        #get the post instance and the user instance
+        post = serializer.validated_data["post"]
+        user = request.user
+
+        if Like.objects.filter(user=user, post=post).exists():
+            return Response({"error":"Already Liked"}, status=400)
+        serializer.save(user=user)
+        return Response(serializer.data, status=201)
 

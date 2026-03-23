@@ -19,3 +19,10 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = "__all__"
 
+#A serializer for the Like Model
+class LikeSerializer(serializers.ModelSerializer):
+    post = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all())
+
+    class Meta:
+        model = LikeSerializer
+        fields = "__all__"
