@@ -62,7 +62,7 @@ class FollowUserView(generics.GenericAPIView):
                         status = status.HTTP_200_OK)
 
 #Creating a view for unfollowing a user
-class UnFollowUserView(GenericAPIView):
+class UnFollowUserView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
