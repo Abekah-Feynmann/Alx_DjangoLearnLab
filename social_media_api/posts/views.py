@@ -20,12 +20,9 @@ class PostViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post"])
     def like(self, request, pk=None):
         post = generics.get_object_or_404(Post, pk=pk)
-        like, created = Like.objects.get_or_create(
-            user=request.user,
-            post=post
-        )
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
         if created:
-            Notifications.objects.create(
+            Notification.objects.create(
                 user=post.author,
                 message=f"{request.user} liked your post"
             )
