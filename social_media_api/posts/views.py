@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, generics, permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from .serializers import PostSerializer, CommentSerializer
 from .models import Post, Comment, Like
+from notifications.models import Notification
 
 
 # Setting up CRUD operations for both Post and Comments.
@@ -14,7 +15,24 @@ the viewset class would be more fitting if the operations needed are customized.
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = ["IsAuthenticated"]
+    permission_classes = [permissions.IsAuthenticated]
+    
+    @action(detail=True, methods=["post"])
+    def like(self, request, pk=None):
+        post = generics.get_object_or_404(Post, pk=pk)
+        like, created = Like.objects.get_or_create(
+            user=request.user,
+            post=post
+        )
+        if created:
+            Notifications.objects.create(
+                user=post.author,
+                message=f"{request.user} liked your post"
+            )
+            return Response({"status":"liked"}, status = status.HTTP_201_CREATED)
+        return Response({"status":"already liked"}, status = status.HTTP_200_OK)
+
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
