@@ -17,6 +17,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
     
+    #liking a post
     @action(detail=True, methods=["post"])
     def like(self, request, pk=None):
         post = generics.get_object_or_404(Post, pk=pk)
@@ -28,6 +29,16 @@ class PostViewSet(viewsets.ModelViewSet):
             )
             return Response({"status":"liked"}, status = status.HTTP_201_CREATED)
         return Response({"status":"already liked"}, status = status.HTTP_200_OK)
+
+    #unliking a post
+    @action(detal=True, methods=[post])
+    def unlike(self, request, pk=None):
+        post = generics.get_object_or_404(Post, pk=pk)
+        like = Like.objects.filter(user=request.user, post=post).first()
+        if like:
+            like.delete()
+            return Response({"status": "unliked"}, status=status.HTTP_200_OK)
+        return Response({"status": "not liked"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
