@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.contentypes.models import ContentType
-from django.contrib.contentypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 # Create your models here.
 
@@ -14,3 +14,4 @@ class Notification(models.Model):
     object_id = models.PositiveIntegerField()
     target = GenericForeignKey('content_type', 'object_id')
     timestamp = models.DateTimeField()
+    is_read = False

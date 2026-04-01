@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, generics, permissions
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from .serializers import PostSerializer, CommentSerializer
 from .models import Post, Comment, Like
@@ -30,14 +31,14 @@ class PostViewSet(viewsets.ModelViewSet):
                 actor = request.user,
                 verb=f"{request.user} liked your post",
                 content_type = ContentType.objects.get_for_model(post),
-                object_id = post.id 
+                object_id = post.id,
                 timestamp = timezone.now()
             )
             return Response({"status":"liked"}, status = status.HTTP_201_CREATED)
         return Response({"status":"already liked"}, status = status.HTTP_200_OK)
 
     #unliking a post
-    @action(detal=True, methods=[post])
+    @action(detail=True, methods=["post"])
     def unlike(self, request, pk=None):
         post = generics.get_object_or_404(Post, pk=pk)
         like = Like.objects.filter(user=request.user, post=post).first()
