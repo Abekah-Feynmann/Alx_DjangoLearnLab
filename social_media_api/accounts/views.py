@@ -6,6 +6,8 @@ from rest_framework import status, generics, permissions
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 from .models import CustomUser
+from django.utils import timezone
+from django.contrib.contenttypes.models import ContentType
 
 
 
@@ -58,6 +60,14 @@ class FollowUserView(generics.GenericAPIView):
                              status = status.HTTP_400_BAD_REQUEST)
         
         request.user.following.add(target_user)
+        Notification.objects.create(
+            recipient = target_user,
+            actor = request.user,
+            verb = f"{request.user} started following you!",
+            content_type = ContentType.objects.get_for_model(target_user),
+            object_id = target_user.id,
+            timestamp = timezone.now()
+        )
         return Response({"message": "Followed successfully"}, 
                         status = status.HTTP_200_OK)
 
