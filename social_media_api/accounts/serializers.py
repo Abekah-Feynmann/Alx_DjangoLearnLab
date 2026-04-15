@@ -15,12 +15,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
     Create serializers for registeration
 """
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, style={"Input_type": "password"})
-    password2 =  serializers.CharField(write_only=True, required=True, style={"Input_type": "password"})
+    password = serializers.CharField(write_only=True, required=True, style={"input_type": "password"})
+    password2 =  serializers.CharField(write_only=True, required=True, style={"input_type": "password"})
 
     class Meta:
         model = CustomUser
-        fields = ["id", "username", "email"]
+        fields = ["id", "username", "email", "password", "password2"]
 
     #validating the data
     def validate(self, data):
@@ -30,12 +30,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     #creating the user
     def create(self, validated_data):
-        validated_data.pop('password2')
+        password = validated_data.pop('password')
+        validated_data.pop("password2")
 
         user = get_user_model().objects.create_user(
-            username = validated_data['username'],
-            email = validated_data.get("email"),
-            password = validated_data['password']
+            password=password, **validated_data
         )
 
         return user
