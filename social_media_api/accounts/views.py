@@ -36,6 +36,7 @@ class LoginView(APIView):
 
 #creating the profile view
 class ProfileView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         serializer = ProfileSerializer(instance=request.user, data=request.data, partial=True)
 
