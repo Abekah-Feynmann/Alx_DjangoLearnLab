@@ -47,7 +47,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True, style={"Input_type":"password"})
-    token = serializers.CharField()
+    
 
     def validate(self, data):
         user = authenticate(
@@ -58,7 +58,7 @@ class LoginSerializer(serializers.Serializer):
         if not user:
             raise serializers.ValidationError("Invalid Credentials")
         
-        token = Token.objects.create(user=user)
+        token, created = Token.objects.create(user=user)
 
         return {
             "username" : user.username,
