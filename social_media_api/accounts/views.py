@@ -37,7 +37,7 @@ class LoginView(APIView):
 #creating the profile view
 class ProfileView(APIView):
     def post(self, request):
-        serializer = ProfileSerializer(user=request.user, data=request.data, partial=True)
+        serializer = ProfileSerializer(instance=request.user, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
