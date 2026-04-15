@@ -72,10 +72,12 @@ class LoginSerializer(serializers.Serializer):
 """
 
 class ProfileSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(read_only=True)
+    followers = serializers.StringRelatedField(many=True, read_only=True)
+    following = serializers.StringRelatedField(many=True, read_only=True)
+    
     class Meta:
         model = CustomUser
-        fields = ["id", "username", "profile_picture", "bio", "followers"]
+        fields = ["id", "username", "profile_picture", "bio", "followers", "following"]
 
 
 
