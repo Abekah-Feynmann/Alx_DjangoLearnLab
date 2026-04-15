@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer
 from rest_framework import status, generics, permissions
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
