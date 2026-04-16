@@ -17,5 +17,5 @@ urlpatterns = [
 
     #A route for follow management
     path("follow/<int:pk>/", FollowUserView.as_view(), name="follow"),
-    path("unfollow/<int:user_id>/", UnFollowUserView.as_view(), name="unfollow"),
+    path("unfollow/<int:pk>/", UnFollowUserView.as_view(), name="unfollow"),
 ]

@@ -53,7 +53,7 @@ class FollowUserView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, user_id):
+    def post(self, request, pk):
         target_user = self.get_object()
 
         if request.user == target_user:
