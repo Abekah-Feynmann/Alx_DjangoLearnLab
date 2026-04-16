@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 from .models import CustomUser
 from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
-
+from notifications.models import Notification
 
 
 
@@ -81,7 +81,7 @@ class UnFollowUserView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, user_id):
+    def post(self, request, pk):
         target_user = self.get_object()
         
         request.user.following.remove(target_user)
