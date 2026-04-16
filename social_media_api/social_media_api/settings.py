@@ -135,3 +135,9 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 #Hide Sensitive Information
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
+
+REST_FRAMEWORK = {
+                    "DEFAULT_AUTHENTICATION_CLASSES": [
+                        "rest_framework.authentication.TokenAuthentication"
+                    ]
+                }
