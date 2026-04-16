@@ -53,12 +53,16 @@ class FollowUserView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, pk):
+    def post(self, request, user_id):
         target_user = self.get_object()
 
         if request.user == target_user:
             return Response({"Error": "You cannot follow yourself"},
                              status = status.HTTP_400_BAD_REQUEST)
+
+        if target_user in request.user.following.all():
+            return Response({"Error": "You are already following this user"}, 
+                                status = status.HTTP_400_BAD_REQUEST)
         
         request.user.following.add(target_user)
         Notification.objects.create(
@@ -70,14 +74,14 @@ class FollowUserView(generics.GenericAPIView):
             timestamp = timezone.now()
         )
         return Response({"message": "Followed successfully"}, 
-                        status = status.HTTP_200_OK)
+                        status = status.HTTP_201_CREATED)
 
 #Creating a view for unfollowing a user
 class UnFollowUserView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, pk):
+    def post(self, request, user_id):
         target_user = self.get_object()
         
         request.user.following.remove(target_user)
