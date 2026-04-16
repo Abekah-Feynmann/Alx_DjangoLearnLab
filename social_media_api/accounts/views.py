@@ -84,9 +84,13 @@ class UnFollowUserView(generics.GenericAPIView):
     def post(self, request, pk):
         target_user = self.get_object()
         
-        request.user.following.remove(target_user)
-        return Response({"message": "Unfollowed successfully"},
-                        status = status.HTTP_200_OK)
+        if request.user == target_user:
+            return Response({"Error": "You cannot unfollow yourself"})
+
+        if request.user != target_user:
+            request.user.following.remove(target_user)
+            return Response({"message": "Unfollowed successfully"},
+                            status = status.HTTP_200_OK)
 
 
 
