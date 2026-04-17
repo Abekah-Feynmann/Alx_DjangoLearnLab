@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'social_media_api.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"))
+        default="sqlite:///dbsqlite3")
 }
 
 
